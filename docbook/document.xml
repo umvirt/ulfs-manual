@@ -273,4 +273,129 @@ cd /mnt/umvirt/packages/0.1/
 </sect1>
 </chapter>
 
+
+<chapter>
+<title>ULFS System Configuration</title>
+<para>All operations which described here are system wide and should be performed by root or user with root permissions.</para>
+<sect1>
+<title>Hostname</title>
+<para>To edit hostname just edit /etc/hostname file and reboot.</para>
+<para>To check hostname you can use hostname command.</para>
+</sect1>
+<sect1>
+<title>Locale</title>
+<para>To check available locales you can use comand: <programlisting>
+locale -a
+</programlisting>
+</para>
+
+<para>To check current locale you can use comand: <programlisting>
+locale
+</programlisting>
+</para>
+
+<para>To temporary assign locale you can use command: <programlisting>
+export LANG=en_US.utf8
+</programlisting>
+</para>
+<para>To assign locale permanently you have to add bellowed command to file /etc/profile.</para>
+
+
+
+<para>To run application with specific locale you can assign LANG environment variable value before application name. For example to run mc with russian locale you can type: <programlisting>
+LANG=ru_RU.utf8 mc
+</programlisting>
+</para>
+
+
+</sect1>
+<sect1>
+<title>Network</title>
+<para>To start networking link to null have to be created.</para>
+<programlisting>
+ln -s /dev/null /etc/systemd/network/99-default.link
+</programlisting>
+<para>To assign static IP-address file /etc/systemd/network/10-eth-static.network have to be created with followed contents:</para>
+<programlisting>
+[Match]
+Name=%network-device-name%
+
+[Network]
+Address=192.168.0.2/24
+Gateway=192.168.0.1
+DNS=192.168.0.1
+Domains=%YourDomainName%
+</programlisting>
+<para>To assign dynamic IP-address (DHCP) file /etc/systemd/network/10-eth-dhcp.network  have to be created with followed contents:</para>
+<programlisting>
+[Match]
+Name=eth0
+
+[Network]
+DHCP=ipv4
+
+[DHCP]
+UseDomains=true
+EOF
+</programlisting>
+
+</sect1>
+
+
+<sect1>
+<title>Timezone</title>
+<para>Timezone information stored in files which located in /usr/share/zoneinfo directory.</para>
+<para>Timezone which pointed by /etc/localtime link is current time zone. You can use ls to check link value:
+<programlisting>
+ls -l /etc/localtime
+</programlisting>
+</para>
+<para>To change timezone just update /etc/localtime link:<programlisting>
+ln -sf /usr/share/zoneinfo/America/Dawson_Creek /etc/localtime
+</programlisting>
+</para>
+</sect1>
+
+
+<sect1>
+<title>Groups</title>
+<para>To add group "office" you can use command
+<programlisting>
+groupadd office
+</programlisting>
+</para>
+</sect1>
+
+<sect1>
+<title>Users</title>
+<para>To create regular user called dummy type:
+<programlisting>
+useradd -d /home/dummy dummy
+mkdir -v /home/dummy
+chown dummy /home/dummy
+</programlisting>
+</para>
+<para>
+To assign password to user called dummy just type:
+<programlisting>
+passwd dummy</programlisting>
+</para>
+<para>
+To add user called dummy to group sudo just type:
+<programlisting>
+usermod -a -G sudo dummy</programlisting>
+</para>
+
+<para>
+To delete user called dummy and it homedir just type:
+<programlisting>
+userdel -rf dummy</programlisting>
+</para>
+</sect1>
+
+
+
+</chapter>
+
+
 </book>
