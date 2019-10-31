@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- This document was created with Syntext Serna Free. --><book>
+  <title>UmVirt Linux From Scratch Manual</title>
+  <bookinfo>
+    <legalnotice>
+      <para>Creative Commons Attribution 3.0 License (CC BY 3.0)</para>
+    </legalnotice>
+    <author>
+      <personname>
+        <firstname>Morozov</firstname>
+        <surname>Boris</surname>
+      </personname>
+    </author>
+  </bookinfo>
+  <preface>
+    <title>About</title>
+<sect1>
+<title>About ULFS</title>
+    <para>Nowadays Open source code is suffer from huge corporations intrests and autocratic regimes politics against Internet and globalisation. At any moment access to source code repositories can become unavailable which can cause financial and existential problems to source code users.</para>
+    <para>UmVirt Linux From Scratch (ULFS) is autonomous, 3E (experimental, educational, emergency) GNU/Linux distro which can be built entirely from source codes.</para>
+    <para>ULFS based on instructions which described in "Linux From Scratch" (LFS) and "Beyond Linux From Scratch" (BLFS) books. Therefore in order of better understanding of what ULFS is, user can build it own distro according to LFS book and install few packages from BLFS book.</para>
+    <para>ULFS contain some parts:
+<itemizedlist>
+<listitem><emphasis role="bold">Base GNU/Linux image</emphasis> - hard disk image or archive which contain result of GNU/Linux building according to LFS book with few imrovements which allows to use ULFS features. If user don't trust us or need custom image he or she can build base image manualy.</listitem>
+<listitem><emphasis role="bold">Advanced GNU/Linux images</emphasis> - base  GNU/Linux images or archives with preinstalled software.</listitem>
+<listitem><emphasis role="bold">ULFS Repository</emphasis> - physical or virtual server which store source packages which can be installed on base or advanced images.</listitem>
+<listitem><emphasis role="bold">ULFS Packages Service</emphasis> - Web-service which can be used in order to on-line/off-line package installing assistance.</listitem>
+</itemizedlist>
+</para>
+<para>Source code of all ULFS parts is open. Any user can deploy it own ULFS implentation.</para>
+<para>
+ULFS support have two editions:
+<itemizedlist>
+<listitem><emphasis role="bold">ULFS64</emphasis> - Main edition. Can be used only on amd64 architecture. Supports only 64-bit applications. Can be used as source platform for cross-compilation. </listitem>
+<listitem><emphasis role="bold">ULFS32</emphasis> - Additional edition. Can be used on i686 and amd64 architecture. Supports only 32-bit applications. Derived from ULFS64 via cross-compilation. Can be used on old computers. Consume lower amount of RAM than ULFS64 but not more than 3GB.</listitem>
+</itemizedlist>
+</para>
+</sect1>
+<sect1>
+<title>About this document</title>
+<para>This document describe main principles of ULFS. To get information about packages user can use ULFS packages service, source packages data. To get information about Linux kernel user can use kernel documentation in source file.</para>
+<para>Sources of this document writen in Docbook format. HTML-file or PDF-file which you reading is result of processing source file.</para>
+<para>Main language of this document is American English all translations are build from main language.</para>
+</sect1>
+  </preface>
+  <chapter>
+    <title>System requirements</title>
+    <para>In order to run ULFS your physical/virtual hardware have to met followed system requirements:</para>
+    <table border="1">
+<caption>Recomended system configuration to run ULFS</caption>      
+<thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CPU architecture</td>
+          <td>i686/amd64 for ULFS32, amd64 for ULFS64</td>
+        </tr>
+        <tr>
+          <td>RAM</td>
+          <td>1GB per CPU</td>
+        </tr>
+       <tr>
+          <td>SWAP</td>
+          <td>RAM*2</td>
+        </tr>
+        <tr>
+          <td>ROM</td>
+          <td>25GB for main system partition, additional partition for compilation can be used</td>
+        </tr>
+      </tbody>
+    </table>
+<para>If you wish to install ULFS from archive file Optical Disk Drive (ODD) can be needed in order to load GRUB2 Rescue CD and install Master Boot Record (MBR).</para>
+<para>Linux kernel is response for hardware support. If your hardware not supported out of box you can reconfigure and rebuild kernel or write your own kernel module. Using kernels from others distros is also possible.</para>
+  </chapter>
+  
+<chapter>
+    <title>User requirements</title>
+ <para>In order to run ULFS you have to met followed user experiences:
+<itemizedlist>
+      <listitem>Popular GNU/Linux (Ubuntu, Centos) installation.</listitem>
+ <listitem>Disk partitioning with fdisk, gparted, parted.</listitem>
+ <listitem>Source package compilation and installation.</listitem>
+ <listitem>Systemd configuration</listitem>
+ <listitem>Creating distro with instructions described in "Linux From Scratch" (LFS) book</listitem>
+</itemizedlist>
+
+
+</para>
+
+</chapter>
+
+<chapter>
+    <title>Base installation</title>
+    <para>There are three ways to install ULFS:</para>
+    <itemizedlist>
+      <listitem>
+        <para><emphasis role="bold">Using prebuilt image</emphasis> - Fastest way to install virtual machine. Looks like as virtual machine restore from backup.</para>
+      </listitem>
+      <listitem>
+        <para><emphasis role="bold">Using prebuilt archive</emphasis> - Fast way to install on container, new partition on physical/virtual machine.</para>
+      </listitem>
+      <listitem>
+        <para><emphasis role="bold">Building from source code</emphasis> - Slowest way to install on any environment. Useful for high security tasks.</para>
+      </listitem>
+    </itemizedlist>
+<para>Any of installation ways have own pros and cons. Using of specific way is depends on task definition.</para>
+<sect1>
+<title>Using prebuilt image</title>
+<para>
+If you wish to install base from prebuilt image follow next steps:
+<itemizedlist>
+<listitem>Download archived disk image (*.img.gz or *.qcow2.gz) .</listitem>
+<listitem>Check checksum. If checksum is not valid, image is broken and download restart is needed.</listitem>
+<listitem>Unpack disk image. You have to get *.img or *.qcow2 file.</listitem>
+<listitem>Configure your hypervisor to run unpacked disk image (RAW image format for *.img file, QCOW2 for *.qcow2 file).</listitem>
+<listitem>Run virtual machine from unpacked disk image.</listitem>
+<listitem>If system loaded correctly just login as root (without password) and perform command "poweroff".</listitem>
+<listitem>If you use pure LFS image you need do perform ULFS customization. See propper chapter of this manual.</listitem>
+</itemizedlist>
+</para>
+</sect1>
+<sect1>
+<title>Using prebuilt archive</title>
+<para>
+If you wish to install base from prebuilt archive follow next steps:
+<itemizedlist>
+<listitem>Create empty virtual hard disk image or connect physical drive</listitem>
+<listitem>Create 64-bit virtual machine or use existing one (We recomend to use Builder VM)</listitem>
+<listitem>Connect new drive to virtual machine</listitem>
+<listitem>Create msdos partition table and bootable ext4 linux partition</listitem>
+<listitem>Mount linux partition in /mnt/build_dir directory</listitem>
+<listitem>Copy filesystem tree archive in /mnt/build_dir directory</listitem>
+<listitem>Unpack tree archive
+
+	<programlisting>tar -xf build_dir.tar.gz</programlisting>
+</listitem>
+<listitem>Optional. If you wish to install in SATA drive replace /dev/vda1 to /dev/sda1 in files:
+	/etc/fstab
+	/etc/boot/grub/grub.cfg 
+</listitem>
+<listitem>Mount partitions
+<programlisting>
+mount -v --bind /dev $LFS/dev
+mount -vt devpts devpts $LFS/dev/pts -o gid=5,mode=620
+mount -vt proc proc $LFS/proc
+mount -vt sysfs sysfs $LFS/sys
+mount -vt tmpfs tmpfs $LFS/run
+</programlisting>
+</listitem>
+<listitem>Chroot
+<programlisting>
+chroot /mnt/build_dir /usr/bin/env -i          \
+    HOME=/root TERM="$TERM"            \
+    PS1='(lfs chroot) \u:\w\$ '        \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin \
+    /bin/bash --login
+</programlisting>
+</listitem>
+<listitem>Install grub to attached disk (see mount command)
+<programlisting>
+grub-install /dev/vda
+</programlisting>
+or 
+<programlisting>
+grub-install /dev/sda
+</programlisting>
+if you use sda.
+</listitem>
+<listitem>Exit from chroot and turn off VM
+</listitem>
+<listitem>Run disk as VM</listitem>
+<listitem>If you use pure LFS image you need do perform ULFS customization. See propper chapter of this manual.</listitem>
+</itemizedlist>
+</para>
+</sect1>
+<sect1>
+<title>Building from source code</title>
+<para>To build base from source code you have to use instructions described in "Linux From Scratch" (LFS) book.</para>
+<para>After following instructions from LFS book you should have bootable GNU/Linux partition.</para>
+<para>After performing ULFS customiztion you have to get environment which can used to install packages via ULFS Packases service.</para>
+</sect1>
+  </chapter>
+<chapter>
+<title>Base ULFS customization</title>
+<para>If you use pure LFS base you have to perform few operations to ensure ULFS support:
+    <itemizedlist>
+ <listitem>If libffi source package was compiled with "--with-gcc-arch=native" parameter, recompilation with parameter "--with-gcc-arch=x86-64" is required before installing packages on ULFS64. On ULFS32 recompilation with parameter "--with-gcc-arch=i686" is needed.</listitem>
+ <listitem>Source package wget have to be installed.</listitem>
+      <listitem>Chimp script have to be placed in /usr/bin directory</listitem>
+
+    </itemizedlist>
+
+</para>
+</chapter>
+<chapter>
+<title>ULFS Packages</title>
+<para>Every GNU/Linux distro is provide software packages to install additional applications. ULFS is not exception.</para>
+<para>Main purpose of "UmVirt LFS Packages" service is package installing assistance. Linux from scratch is not typical distro where binary source packages offered to user. 
+LFS offers source packages without compilation automation. User have to download, unpack, configure, build and install packages manualy. 
+"UmVirt LFS Packages" service is help users to install packages and all it dependaces like in other distros.</para>
+<para>Information in this chapter aimed to ULFS user not ULFS Package maintainer. Information for ULFS Package maintainer can be found on ULFS Package service.</para>
+<sect1>
+<title>Packages installation</title>
+<sect2>
+<title>On-line mode</title>
+<para>If you can use local or global ULFS Packages Service we assume that your ULFS is on on-line mode. In this case to install package you have to run "chimp" command:
+<programlisting>
+chimp install %package_name%
+</programlisting>
+</para>
+<para>This command will install %package_name% sourcce package in ULFS with automatic dependancy resolving.</para>
+<para>For example, to install "Midnight Commander" just run:
+<programlisting>
+chimp install mc
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>Off-line mode</title>
+<para>If you can use offline repository located in direcrory /mnt/umvirt we assume that your ULFS in off-line mode. In this case to install package you have to run proper script in packages direcory:
+<programlisting>
+cd /mnt/umvirt/packages/%release%/
+./%packagename%.sh
+</programlisting>
+</para>
+<para>This command will install %package_name% sourcce package from %release% release in ULFS with automatic dependancy resolving.</para>
+<para>For example, to install "Midnight Commander" from 0.1 release just run:
+<programlisting>
+cd /mnt/umvirt/packages/0.1/
+./mc.sh            
+</programlisting>
+</para>
+
+</sect2>
+</sect1>
+<sect1>
+<title>Available packages list</title>
+<para>To get available packages list in on-line mode you can use ULFS Packages Service: https://umvirt.com/linux/packages/%release%. </para>
+<para>To get available packages list in off-line mode you can use directory /mnt/umvirt/packages/%release%/. All *.sh files represent such packages.</para>
+</sect1>
+
+<sect1>
+<title>Installed packages list</title>
+<para>To get available packages list you can list /var/cache/ulfs-packages directory. Each file represent such package.</para>
+<para>If you delete any file in this directory it will lead to package reinstall when package placed in depenances of installing pakage.</para>
+</sect1>
+
+<sect1>
+<title>Packages debug information</title>
+<para>Debug information about building and installing specific package called %package% is placed in /var/log/ulfs-packages/%package% directory.</para>
+<para>Timestamp files used for search installed files and can be used for profiling:</para>
+<itemizedlist>
+<listitem>start.time - timestamp recieved before start.</listitem>
+<listitem>download.time - timestamp recieved before download.</listitem>
+<listitem>[cleanup.time] - timestamp recieved before directory cleanup. Optional.</listitem>
+<listitem>unpack.time - timestamp recieved before unpacking and patching</listitem>
+<listitem>configure.time - timestamp recieved before configuration</listitem>
+<listitem>build.time - timestamp recieved before build</listitem>
+<listitem>install.time - timestamp recieved before installation</listitem>
+<listitem>finish.time - timestamp recieved before finish </listitem>
+</itemizedlist>
+<para>files.txt - list of installed files</para>
+</sect1>
+
+<sect1>
+<title>Packages building tweaks</title>
+<para>Packages are building in /sources directory. You can use this directory as mountpoint to extend disk space amount.</para>
+<para>Second compilation of meson/ninja programs can lead to errors. To avoid this errors build directory should be cleared. You can place .cleanup empty file in /sources directory to delete derectory before extracting source package.</para>
+</sect1>
+</chapter>
+
+</book>
