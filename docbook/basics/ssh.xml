@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf8"?>
+<chapter>
+<title>SSH</title>
+<para>Secure Shell (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. 
+SSH can be used for logging into a remote machine and for executing commands on a remote machine.</para>
+<para>In ULFS like in popular GNU/Linux distributions OpenSSH is main SSH protocol implementation.</para>
+<para>OpenSSH can be also used for:
+<itemizedlist>
+<listitem>File transfer via scp utility or external applications like Midnight Comander, Rsync and others.</listitem>
+<listitem>Port forwarding from remote machine to local and vice versa.</listitem>
+<listitem>Automated configuration with Ansible tool.</listitem>
+</itemizedlist>
+</para>
+<sect1>
+<title>OpenSSH installation</title>
+<para>To install openssh client and server you have to type: <programlisting>chimp install openssh</programlisting></para>
+<para>To place openssh-server on autoload you have to run command:
+<programlisting>
+cd /usr/share/blfs-systemd-units
+sudo make install-sshd
+</programlisting></para>
+<para>After running bellowing command you have to reboot to check OpenSSH-server autoloading. OpenSSH-server process sshd have to be started and incoming connections on 22 TCP port have to be acceped.</para>
+</sect1>
+<sect1>
+<title>Connecting to SSH-server</title>
+<para>Connection to SSH-server is performing by command  <programlisting>ssh %username%@%server%</programlisting></para>
+<para>Where %username% is user name on server, %server% is server name or IP-address.</para>
+If you want to be able to log in without typing in your password, first create ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub with ssh-keygen and then copy ~/.ssh/id_rsa.pub to ~/.ssh/authorized_keys on the remote computer that you want to log into. You'll need to change REMOTE_USERNAME and REMOTE_HOSTNAME for the username and hostname of the remote computer and you'll also need to enter your password for the ssh-copy-id command to succeed:
+<programlisting>
+ssh-keygen &amp;&amp;
+ssh-copy-id -i ~/.ssh/id_rsa.pub REMOTE_USERNAME@REMOTE_HOSTNAME
+</programlisting>
+</sect1>
+
+</chapter>

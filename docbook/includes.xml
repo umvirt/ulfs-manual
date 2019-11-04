@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf8"?>
+<!ENTITY basics.ssh SYSTEM "basics/ssh.xml">
+<!ENTITY basics.http SYSTEM "basics/http.xml">
+<!ENTITY basics.db SYSTEM "basics/db.xml">
+

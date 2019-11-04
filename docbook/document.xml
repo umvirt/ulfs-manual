@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE booko PUBLIC '-//OASIS//DTD DocBook XML V4.5//EN'
+                         'http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd'  [
+
+<!ENTITY % chapters SYSTEM "includes.xml">
+%chapters;
+]>
 <!-- This document was created with Syntext Serna Free. --><book>
   <title>UmVirt Linux From Scratch Manual</title>
   <bookinfo>
@@ -11,6 +17,12 @@
         <surname>Boris</surname>
       </personname>
     </author>
+<abstract>
+<para>This manual covers UmVirt Linux From Scratch v.0.1 installation and confiration.</para>
+<para>To get information about packages user can use ULFS packages service, source packages data.</para>
+<para>To get information about Linux kernel user can use kernel documentation in source file</para>
+</abstract>
+
   </bookinfo>
   <preface>
     <title>About</title>
@@ -38,11 +50,17 @@ ULFS support have two editions:
 </sect1>
 <sect1>
 <title>About this document</title>
-<para>This document describe main principles of ULFS. To get information about packages user can use ULFS packages service, source packages data. To get information about Linux kernel user can use kernel documentation in source file.</para>
+<para>This document describe main principles of ULFS. 
+To get information about packages user can use ULFS packages service, source packages data. To get information about Linux kernel user can use kernel documentation in source file.</para>
 <para>Sources of this document writen in Docbook format. HTML-file or PDF-file which you reading is result of processing source file.</para>
 <para>Main language of this document is American English all translations are build from main language.</para>
 </sect1>
   </preface>
+
+<part xml:id="getting-started">
+<title>Getting started</title>
+
+
   <chapter>
     <title>System requirements</title>
     <para>In order to run ULFS your physical/virtual hardware have to met followed system requirements:</para>
@@ -397,5 +415,14 @@ userdel -rf dummy</programlisting>
 
 </chapter>
 
+</part>
+
+<part xml:id="basics">
+<title>ULFS basics</title>
+&basics.ssh;
+&basics.http;
+&basics.db;
+
+</part>
 
 </book>

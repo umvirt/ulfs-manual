@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf8"?>
+<chapter>
+<title>Database Servers</title>
+<para>Database Servers allows users and software to store and process data remotely and in more effective way than in files.</para> 
+<para>ULFS supply few database engines such: PostgreSQL, MariaDB(MySQL) and others.</para>
+
+<sect1>
+<title>Database servers installation</title>
+<para>To install PostgreSQL Database server and client you can run
+<programlisting>
+chimp install postgresql-server
+</programlisting></para>
+<para>To install only PostgreSQL Database client without server you can run
+<programlisting>
+chimp install postgresql-client
+</programlisting></para>
+<para>Same aproch works with MariaDB. To install server use command:
+<programlisting>
+chimp install mariadb-server
+</programlisting></para>
+<para>To install only MariaDB client without server you can run
+<programlisting>
+chimp install mariadb-client
+</programlisting>
+</para>
+</sect1>
+
+<sect1>
+<title>PostgreSQL-server configuration</title>
+<sect2>
+<title>Start PostgreSQL-server on startup</title>
+<para>To start PostgreSQL-server on system startup you have to run command:
+<programlisting>
+cd /usr/share/blfs-systemd-units
+make install-postgresql
+</programlisting>
+</para>
+</sect2>
+
+
+</sect1>
+
+
+<sect1>
+<title>MariaDB-server configuration</title>
+<para>After installation MariaDB-Server needs configuration.</para>
+<sect2>
+<title>Setting root password</title>
+<para>First step of MariaDB-Server configuration is setting root password.</para>
+<para>Launch MariaDB-server in safe mode with command:
+<programlisting>
+mysqld_safe --user=mysql 2>&amp;1 >/dev/null &amp;
+</programlisting>
+</para>
+<para>Set root password                                   
+<programlisting>
+mysqladmin -u root password
+</programlisting>  
+
+</para>
+<para>After setting root password MariaDB-server can be stoped                
+<programlisting>
+mysqladmin -p shutdown
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>Start MariaDB-server on startup</title>
+<para>To start MariaDB-server on system startup you have to run command:
+<programlisting>
+cd /usr/share/blfs-systemd-units
+make install-mysqld
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>Advanced MariaDB-server configuration</title>
+<para>More information about MariaDB-server configuration you can get on MariaDB knowledge base (KB) https://mariadb.com/kb/.</para>
+<para>The MySQL Reference off-line manual can be downloaded from https://dev.mysql.com.</para>
+</sect2>
+</sect1>
+
+</chapter>

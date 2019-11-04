@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf8"?>
+<chapter>
+<title>HTTP</title>
+<para>
+The Hypertext Transfer Protocol (HTTP) is an application protocol for distributed, collaborative, hypermedia information systems. 
+HTTP is the foundation of data communication for the World Wide Web, where hypertext documents include hyperlinks to other resources that the user can easily access, for example by a mouse click or by tapping the screen in a web browser.
+</para>
+<para>ULFS currently supply HTTP-clients for software, HTTP-clients for users called web-browsers and HTTP-servers called web-servers.</para>
+<para>It should mentioned that ULFS Packages system uses HTTP protocol to install source packages.</para>
+<sect1>
+<title>Text web-browser</title>
+<para>Web-browsers which can run in text-mode (terminals, consoles) called text web-browsers.</para>
+<para>ULFS user can use Links as text web-browser in case graphical system not installed or can't to be used.</para>
+<para>To install Links web-browser you can run
+<programlisting>
+chimp install links
+</programlisting></para>
+<para>To open website in text browser you can run
+<programlisting>
+links http://umvirt.com
+</programlisting></para>
+</sect1>
+<sect1>
+<title>Graphical web-browser</title>
+<para>Web-browsers which can run in graphical-mode called graphical web-browsers.</para>
+<para>ULFS user can use NetSurf as graphical web-browser in case graphical system is installed.</para>
+<para>To install NetSurf web-browser you can run
+<programlisting>
+chimp install netsurf
+</programlisting></para>
+<para>To open website in text browser you can run
+<programlisting>
+nsgtk http://umvirt.com
+</programlisting></para>
+</sect1>
+<sect1>
+<title>Apache web-server</title>
+<para>Apache HTTPd is most popular Web-server which can be used to hosting static and dynamic web-sites.</para>
+<para>Apache HTTPd can be used to host ULFS Packages service in your local area network in case no Internet connection available.</para>
+<para>To install Apache  HTTPd web-browser you can run
+<programlisting>
+chimp install httpd
+</programlisting></para>
+<para>To place openssh-server on autoload you have to run command:
+<programlisting>
+cd /usr/share/blfs-systemd-units
+sudo make install-httpd
+</programlisting></para>
+
+</sect1>
+
+</chapter>
