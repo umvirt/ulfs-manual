@@ -5,7 +5,10 @@
 <!ENTITY % chapters SYSTEM "includes.xml">
 %chapters;
 ]>
-<!-- This document was created with Syntext Serna Free. --><book>
+<!-- This document was created with Syntext Serna Free. -->
+<book 
+xmlns="http://docbook.org/ns/docbook"
+xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>UmVirt Linux From Scratch Manual</title>
   <bookinfo>
     <legalnotice>
@@ -208,11 +211,23 @@ if you use sda.
     <itemizedlist>
  <listitem>If libffi source package was compiled with "--with-gcc-arch=native" parameter, recompilation with parameter "--with-gcc-arch=x86-64" is required before installing packages on ULFS64. On ULFS32 recompilation with parameter "--with-gcc-arch=i686" is needed.</listitem>
  <listitem>Source package wget have to be installed.</listitem>
-      <listitem>Chimp script have to be placed in /usr/bin directory</listitem>
+ <listitem>Chimp script have to be placed in /usr/bin directory</listitem>
+ <listitem>File /etc/profile should like as described in BLFS. <link xlink:href="http://www.linuxfromscratch.org/blfs/view/8.3-systemd/postlfs/profile.html">http://www.linuxfromscratch.org/blfs/view/8.3-systemd/postlfs/profile.html</link>. You can have a additional directives in that file if needed.</listitem>
+ <listitem>File /etc/profile.d/ulfs.sh should be created to enable ULFS functionality in LFS.
 
+<programlisting>
+cat &gt; /etc/profile.d/ulfs.sh &lt;&lt; "EOF"
+export UMVIRT_ASSISTANT_URL=https://umvirt.com/linux/assistant/
+export UMVIRT_PACKAGES_URL=https://umvirt.com/linux/packages/
+export UMVIRT_RELEASE=0.1
+EOF
+</programlisting>
+</listitem>
     </itemizedlist>
-
 </para>
+<para>When steps described above are committed, reboot your system and run "chimp" command without arguments. You have to get message "CHIMP IS READY TO ACCEPT COMMANDS". 
+</para>
+
 </chapter>
 <chapter>
 <title>ULFS Packages</title>
@@ -286,9 +301,51 @@ cd /mnt/umvirt/packages/0.1/
 
 <sect1>
 <title>Packages building tweaks</title>
+<sect2>
+<title>Build directory</title>
 <para>Packages are building in /sources directory. You can use this directory as mountpoint to extend disk space amount.</para>
 <para>Second compilation of meson/ninja programs can lead to errors. To avoid this errors build directory should be cleared. You can place .cleanup empty file in /sources directory to delete derectory before extracting source package.</para>
+</sect2>
+<sect2>
+<title>Multithreading</title>
+<para>To speedup compilation multithreading can be used. For example, to enable building using four CPU threads write in /etc/profile this directive:<programlisting>export MAKEFLAGS="-j4"</programlisting></para>
+<para>After editing /etc/profile reboot is needed for applying changes.</para>
+<para>Some packages don't support multithreading. To compile this application you can use command before compilation:<programlisting>export MAKEFLAGS="-j1"</programlisting></para>
+</sect2>
 </sect1>
+
+<sect1>
+<title>Known issues</title>
+<para>Because development of ULFS still in progress some issues are exists. Some of them need software solution some of them needs organizational sulution.</para>
+<sect2>
+<title>Yogurt problem (bootstraping)</title>
+<para>Yogurt is product of bacteria activity. When yogurt is making portion of bacteria can be taken from yogurt which is done.</para>
+<para>Ass yogurt not all packages can be compiled with tools which supplied with ULFS, some of them need their own binaries to compile itself. This packages are:
+<itemizedlist>
+<listitem>Java Development Toolkit (OpenJDK)</listitem>
+<listitem>Rust</listitem>
+<listitem>Haskell</listitem>
+</itemizedlist>
+</para>
+<para>Binaries are security threat bacause they can contain viruses, trojans and other malware.</para>
+<para>There is way to avoid of using binaries called bootstrapping. This way is way when early versions of package can be compiled from integrated tools. Later version are can be compiled sequently.</para> 
+<para>This aproach works with go compiler. Initial version compiled by gcc. Later version compiled from initial version go compiler.</para>
+<para>Not all packages supports bootstrapping therefore it can't be installed in simple way.</para>
+<para>You can't use this packages out of box because they break opensource conception of ULFS. On installing this packages in direct or indirect way (as dependance) you will get error. </para>
+<para>If you want to install some this packages any way and understand riscs you can use supplied binaries.</para>
+<sect3>
+<title>OpenJDK installation</title>
+<para>Before installing OpenJDK source package we need to install OpenJDK binaries. </para>
+<para>On ULFS64 OpenJDK binaries can be installed with command: <programlisting>chimp add_java64</programlisting></para>
+<para>After installing OpenJDK binaries it's needed to perform relogin. After relogin java command should start to work. Next command should return java version info:<programlisting>java --version</programlisting></para>
+<para>Now its possible to complie OpenJDK source package using binaries. just run: <programlisting>chimp install openjdk</programlisting></para>
+</sect3>
+
+
+</sect2>
+
+</sect1>
+
 </chapter>
 
 
