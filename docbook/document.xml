@@ -416,6 +416,13 @@ EOF
 
 </sect1>
 
+<sect1>
+<title>Sound</title>
+<para>To get list of available sound cards aplay program from "alsa-utils" package can be used:<programlisting>aplay -L</programlisting></para>
+<para>If sound cards list is empty and sound card installed, looks like current user is not member of "audio" group.</para>
+<para>If user is member og group audio and sound card not listed, looks like sound card driver is not loaded or even it can be broken.</para>
+<para>To get list of connected PCI devices and get infofmation about loaded kernel drivers and modules lspci command from "pciutils" package can be used:<programlisting>lspci -knn</programlisting></para>
+</sect1>
 
 <sect1>
 <title>Timezone</title>
@@ -434,11 +441,24 @@ ln -sf /usr/share/zoneinfo/America/Dawson_Creek /etc/localtime
 
 <sect1>
 <title>Groups</title>
-<para>To add group "office" you can use command
+<para>Group is named list of users.</para>
+<para>To create a new group "office" you can use command
 <programlisting>
 groupadd office
 </programlisting>
 </para>
+<sect2>
+<title>System groups</title>
+<para>GNU/Linux file tree also contain files which located on virtual filesystems. This files can represent devices or contain data which recieved from kernel. To control access to this files a system groups are used:
+<itemizedlist>
+<listitem>audio - users who are members of this group can get access to sound cards</listitem>
+<listitem>cups - users who are members of this group can get access to printers</listitem>
+</itemizedlist>
+</para>
+<para>To get information about file-object permission, ls command can be used<programlisting>ls -l %path_to_file%</programlisting></para>
+
+
+</sect2>
 </sect1>
 
 <sect1>
@@ -460,6 +480,13 @@ To add user called dummy to group sudo just type:
 <programlisting>
 usermod -a -G sudo dummy</programlisting>
 </para>
+
+<para>
+To check user membership a id command can be used:
+<programlisting>
+id</programlisting>
+</para>
+
 
 <para>
 To delete user called dummy and it homedir just type:
