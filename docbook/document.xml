@@ -237,7 +237,7 @@ LFS offers source packages without compilation automation. User have to download
 "UmVirt LFS Packages" service is help users to install packages and all it dependaces like in other distros.</para>
 <para>Information in this chapter aimed to ULFS user not ULFS Package maintainer. Information for ULFS Package maintainer can be found on ULFS Package service.</para>
 <sect1>
-<title>Packages installation</title>
+<title>Simple packages installation</title>
 <sect2>
 <title>On-line mode</title>
 <para>If you can use local or global ULFS Packages Service we assume that your ULFS is on on-line mode. In this case to install package you have to run "chimp" command:
@@ -270,6 +270,48 @@ cd /mnt/umvirt/packages/0.1/
 
 </sect2>
 </sect1>
+<sect1>
+<title>Complex packages installation</title>
+<sect2>
+<title>Java subsystem</title>
+
+<para>Java is needed to build &quot;LibreOffice&quot; source package and to run binaries like &quot;Eclipse IDE&quot;.
+Due to yogurt problem installing java is not trivial. 
+To install java you have to perform a few steps:
+<itemizedlist>
+<listitem>Install java binary with command: <programlisting>chimp add_java64</programlisting></listitem>
+<listitem>Perform relogin. After relogin &quot;java&quot; command should work.</listitem>
+<listitem>Build java binary from sources: <programlisting>chimp install openjdk</programlisting></listitem>
+<listitem>Perform relogin. After relogin &quot;java&quot; command should work.</listitem>
+<listitem>Install apache-maven: <programlisting>chimp install apache-maven</programlisting></listitem>
+<listitem>Perform relogin. After relogin &quot;mvn&quot; command should work.</listitem>
+<listitem>Install apache-ant: <programlisting>chimp install apache-ant</programlisting></listitem>
+<listitem>Perform relogin. After relogin &quot;ant&quot; command should work.</listitem>
+ </itemizedlist>
+</para>
+<para>At the end you have to check that commands &quot;ant&quot;, &quot;java&quot; and &quot;mvn&quot; are work.</para>
+</sect2>
+
+<sect2>
+<title>LibreOffice</title>
+<para>This package needs Java subsystem support and non-root user compilation.To install java you have to perform a few steps:
+<itemizedlist>
+<listitem>Install sudo:<programlisting>chimp install sudo</programlisting></listitem>
+<listitem>Assign password for user maintainer:<programlisting>passwd maintainer</programlisting></listitem>
+<listitem>Login as maintainer</listitem>
+<listitem>Install libre office as maintainer:<programlisting>chimp install sudo</programlisting></listitem>
+</itemizedlist>
+</para>
+</sect2>
+<para>After instaling sudo try to install packages from maintainer to avoid permission problems.</para>
+
+</sect1>
+
+
+
+
+
+
 <sect1>
 <title>Available packages list</title>
 <para>To get available packages list in on-line mode you can use ULFS Packages Service: https://umvirt.com/linux/packages/%release%. </para>
@@ -311,6 +353,11 @@ cd /mnt/umvirt/packages/0.1/
 <para>To speedup compilation multithreading can be used. For example, to enable building using four CPU threads write in /etc/profile this directive:<programlisting>export MAKEFLAGS="-j4"</programlisting></para>
 <para>After editing /etc/profile reboot is needed for applying changes.</para>
 <para>Some packages don't support multithreading. To compile this application you can use command before compilation:<programlisting>export MAKEFLAGS="-j1"</programlisting></para>
+</sect2>
+
+<sect2>
+<title>Swap partition</title>
+<para>Sometimes is needed to build huge source packages that require more memory than your device have. Try to use swap partition with command like:<programlisting>swapon /dev/vda2</programlisting></para>
 </sect2>
 </sect1>
 
