@@ -375,15 +375,34 @@ To install java you have to perform a few steps:
 <para>Not all packages supports bootstrapping therefore it can't be installed in simple way.</para>
 <para>You can't use this packages out of box because they break opensource conception of ULFS. On installing this packages in direct or indirect way (as dependance) you will get error. </para>
 <para>If you want to install some this packages any way and understand riscs you can use supplied binaries.</para>
-<sect3>
-<title>OpenJDK installation</title>
-<para>Before installing OpenJDK source package we need to install OpenJDK binaries. </para>
-<para>On ULFS64 OpenJDK binaries can be installed with command: <programlisting>chimp add_java64</programlisting></para>
-<para>After installing OpenJDK binaries it's needed to perform relogin. After relogin java command should start to work. Next command should return java version info:<programlisting>java --version</programlisting></para>
-<para>Now its possible to complie OpenJDK source package using binaries. just run: <programlisting>chimp install openjdk</programlisting></para>
-</sect3>
+</sect2>
+<sect2>
+<title>Kernel headers (sources)</title>
+<para>Device drivers, VirtialBox guest additions and some packages need kernel headers to be installed. Kernel headers is part of kernel sources. Kernel sources are not needed for runtimes and takes a disk space. To reduce size of disk images kernel sources are not included.</para>
+<para>All kernel sources are placed in http://kernel.org/ website. Main kernel sources which was used during LFS base image creation can be ound in Sources.tar archive.</para>
+<para>Kernel sources version shoud be equal system kernel version. You can check kernel version with uname command: <programlisting>uname -r</programlisting></para>
+<para>Before installing packages which use kernel sources you have to: 
+<itemizedlist>
+<listitem>Extract kernel sources archive wherevere you want (/usr/src, /root/kernel, /sources directories or elsewhere).</listitem>
+<listitem>Correct "build" and "source" symlinks files in /lib/modules/%kerrnel_version% directory</listitem>
+<listitem>Copy config file from /boot directory with name ".config". Default config file is /boot/config.</listitem>
+<listitem>Prepare kernel sources for compilation. 
+<para>For ULFS64: 
+<programlisting>
+make oldconfig
+make prepare
+</programlisting></para>
 
+<para>for ULFS32:
+<programlisting>
+ARCH=i386 make oldconfig
+ARCH=i386 make prepare
+</programlisting>
+</para>
+</listitem>
+</itemizedlist>
 
+</para>
 </sect2>
 
 </sect1>
