@@ -149,52 +149,47 @@ If you wish to install base from prebuilt image follow next steps:
 <para>
 If you wish to install base from prebuilt archive follow next steps:
 <itemizedlist>
-<listitem>Create empty virtual hard disk image or connect physical drive</listitem>
-<listitem>Create 64-bit virtual machine or use existing one (We recomend to use Builder VM)</listitem>
-<listitem>Connect new drive to virtual machine</listitem>
-<listitem>Create msdos partition table and bootable ext4 linux partition</listitem>
-<listitem>Mount linux partition in /mnt/build_dir directory</listitem>
-<listitem>Copy filesystem tree archive in /mnt/build_dir directory</listitem>
-<listitem>Unpack tree archive
+<listitem>Create empty raw virtual hard disk image or connect physical drive, logical volume, iSCSI LUN and etc. Command for 30GB raw disk image creation: 
+<programlisting>qemu-img create -f raw hdd.img 30G</programlisting></listitem>
 
-	<programlisting>tar -xf build_dir.tar.gz</programlisting>
+<listitem>Create partition table on disk image using fdisk, parted, gparted. For parted command should be
+<programlisting>parted hdd.img</programlisting>
 </listitem>
-<listitem>Optional. If you wish to install in SATA drive replace /dev/vda1 to /dev/sda1 in files:
-	/etc/fstab
-	/etc/boot/grub/grub.cfg 
+<listitem>Make system partition and make it bootable.</listitem>
+<listitem>Add other partitions if needed. You can also place data partition, compilation partition and swap partition. If you using virtual machine you can use disks against partitions.</listitem>
+<listitem>If you use disk image mount it to mapper via kpartx: <programlisting>kpartx -av hdd.img</programlisting></listitem>
+<listitem>Format main partition on proper mouted loop (be careful if you mount mutiple loops): <programlisting>mkfs.ext4 /dev/mapper/loop0p1</programlisting></listitem>
+<listitem>Make directory according to archive name ("build_dir" for "build_dir.tar.gz" archive)
+<programlisting>mkdir -v build_dir</programlisting>
 </listitem>
-<listitem>Mount partitions
+<listitem>Mount disk image partition to created directory:<programlisting>mount /dev/mapper/loop0p1 build_dir</programlisting>
+</listitem>
+<listitem>Extract archive to directory <programlisting>tar -xf build_dir.tar.gz</programlisting></listitem>
+<listitem>Check files in directory <programlisting>ls -l build_dir</programlisting></listitem>
+<listitem>Check /etc/fstab and /boot/grub files for correct root device path (/dev/vda1 - for VirtIO disk, /dev/sda1 - for SAS,SCSI,SATA,IDE). If needed correct it.</listitem>
+<listitem>Go to directory with image and unmount disk image partition and mapping
 <programlisting>
-mount -v --bind /dev $LFS/dev
-mount -vt devpts devpts $LFS/dev/pts -o gid=5,mode=620
-mount -vt proc proc $LFS/proc
-mount -vt sysfs sysfs $LFS/sys
-mount -vt tmpfs tmpfs $LFS/run
-</programlisting>
+umount /dev/mapper/loop0p1
+kpartx -dv hdd.img
+</programlisting></listitem>
+<listitem>Create virtual machine (We recomend to use virtual-manager for simplicity). Please use "hypervisor default" cpu model if you wish to operate ULFS32 because threre are bug in qemu on some prccessors like AMD Ryzen CPUs.</listitem>
+<listitem>Connect hard disk image (hdd.img) and grub rescue cd image (grub.iso) to virtual machine, and set cdrom as boot image</listitem>
+<listitem>Start a virtual machine. Grub rescue shell should apear</listitem>
+<listitem>List available devices:<programlisting>ls</programlisting></listitem>
+<listitem>If (hd0,1) is found, try to find vmlinuz file in this partition: List available devices<programlisting>ls (hd0,1)/boot/vmlinuz</programlisting></listitem>
+<listitem>If vmlinuz file is found, try to select it for boot on virtio disk (vda1):
+<programlisting>linux (hd0,1)/boot/vmlinuz root=/dev/vda1 ro</programlisting>
+or on other disk (sda1)
+<programlisting>linux (hd0,1)/boot/vmlinuz root=/dev/sda1 ro</programlisting>
 </listitem>
-<listitem>Chroot
-<programlisting>
-chroot /mnt/build_dir /usr/bin/env -i          \
-    HOME=/root TERM="$TERM"            \
-    PS1='(lfs chroot) \u:\w\$ '        \
-    PATH=/bin:/usr/bin:/sbin:/usr/sbin \
-    /bin/bash --login
-</programlisting>
+<listitem>Boot the system by runnin boot command without arguments:<programlisting>boot</programlisting></listitem>
+<listitem>When system is booted login as root with empty password</listitem>
+<listitem>Install grub loader to MBR on virtio disk
+<programlisting>grub-install /dev/vda</programlisting>
+on other disk disk:
+<programlisting>grub-install /dev/sda</programlisting>
 </listitem>
-<listitem>Install grub to attached disk (see mount command)
-<programlisting>
-grub-install /dev/vda
-</programlisting>
-or 
-<programlisting>
-grub-install /dev/sda
-</programlisting>
-if you use sda.
-</listitem>
-<listitem>Exit from chroot and turn off VM
-</listitem>
-<listitem>Run disk as VM</listitem>
-<listitem>If you use pure LFS image you need do perform ULFS customization. See propper chapter of this manual.</listitem>
+<listitem>After instaling grub loader shoutdown a VM and try to boot it from hard drive. System shoud start automaticaly.</listitem>
 </itemizedlist>
 </para>
 </sect1>
