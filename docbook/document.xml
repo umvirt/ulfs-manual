@@ -539,8 +539,40 @@ userdel -rf dummy</programlisting>
 
 
 
-</chapter>
 
+<sect1>
+<title>Guest additions</title>
+<para>Running ULFS in VMs need guest addition installing for specific hypervisor to get better performance and experience.</para>
+<sect2>
+<title>VirtualBox</title>
+<para>Virtualbox is hypervisor for newbies training. VirtualBox have simple graphical user interface and simplicity. VirtualBox can run on multiple operating systems like Apple MacOS, Microsoft Windows and Linux.</para>
+<para>ULFS provide VirtualBox OVA-packages especialy for Virtualbox users. They can be used to deploy demo virtual machines of desktop and local repository. Desktop OVA-package contain VirtualBox additions.</para>
+<para>Regular images don't contain VirtualBox guest additions and not ready to run.</para>
+<para>To prepare disk images to run in Virtual Box it should be converted from raw or qcow format to vdi format. You can use qemu-img tool to conver image to vdi-format:<programlisting>qemu-img convert -O vdi hdd.img hdd.vdi</programlisting></para>
+<para>To install virtualbox guest additions you have to do:
+<itemizedlist>
+<listitem>Install and prepare kernel sources for modules compilation</listitem>
+<listitem>Install Virtualbox additions from guest additions disk. Just run "VBoxLinuxAdditions.run" file from Guest additions CD.</listitem>
+<listitem>Reboot the virtual machine</listitem>
+<listitem>Check guest additions status: <programlisting>
+rcvboaxadd status</programlisting></listitem>
+</itemizedlist>
+</para>
+<para>Warning: VirtialBox is not suport VirtIO disk drive therefore grub and fstab should be configured to use sda1 as root partition not vda1.</para>
+</sect2>
+<sect2>
+<title>QEMU</title>
+<para>QEMU is hypervosor for work and development. It's more powerfull and flexible than Virtual Box.</para>
+<para>For better performance QEMU provide paravirtualization drivers for disks and network interfaces called VirtIO. As video card QEMU can USE QXL-video card</para>
+<para>Also QEMU provide opensource VDI protocol called SPICE. With SPICE it's possible to work with VM remotely looks like it was launched localy.</para>
+<para>VirtIO support is provided by kernel, QXL-support provided by kernel and "xf86-video-qxl" package, SPICE-support provided by kernel and "spice-vdagent" package.</para>
+<para>"spice-vdagent" package is not installed by default, because it useless when QEMU hypervisor is not used. Install this package if needed.</para>
+</sect2>
+
+
+
+</sect1>
+</chapter>
 </part>
 
 <part xml:id="basics">
