@@ -383,7 +383,7 @@ To install java you have to perform a few steps:
 <para>Kernel sources version shoud be equal system kernel version. You can check kernel version with uname command: <programlisting>uname -r</programlisting></para>
 <para>Before installing packages which use kernel sources you have to: 
 <itemizedlist>
-<listitem>Extract kernel sources archive wherevere you want (/usr/src, /root/kernel, /sources directories or elsewhere).</listitem>
+<listitem>Extract kernel sources to /usr/src and grant access to this directory for maintainer user.</listitem>
 <listitem>Correct "build" and "source" symlinks files in /lib/modules/%kerrnel_version% directory</listitem>
 <listitem>Copy config file from /boot directory with name ".config". Default config file is /boot/config.</listitem>
 <listitem>Prepare kernel sources for compilation. 
@@ -578,6 +578,7 @@ rcvboaxadd status</programlisting></listitem>
 </itemizedlist>
 </para>
 <para>Warning: VirtialBox is not suport VirtIO disk drive therefore grub and fstab should be configured to use sda1 as root partition not vda1.</para>
+<para>There are bug with kernel which affect additional resolution modes support by Xorg. To fix this bug "nosplash" and "nomodeset" kernel boot options should be used in /boot/grub/grub.cfg.</para>
 </sect2>
 <sect2>
 <title>QEMU</title>
