@@ -409,6 +409,94 @@ ARCH=i386 make prepare
 
 </chapter>
 
+<chapter>
+<title>ULFS preintalled images</title>
+<para>You can use differnt preinstalled images to reduce build time. Because this images was created earlier they can contain outdated versions of kernel and packages. You can use new kernel, you can install packages again to update their versions.</para>
+<para>To reduce image archive size you have to: 
+<itemizedlist>
+<listitem>clear /sources directory</listitem>
+<listitem>create a big zero file then delete it:
+<programlisting>
+dd if=/dev/zero of=/zero
+rm -v /zero</programlisting>
+</listitem>
+</itemizedlist>
+</para>
+<para>Also to reduce image size kernel sources and kernel firmware directories can be deleted. Kernel firmware is needed to run hardware with proprietary drivers. On early stages kernel firmware and sources are not needed.</para>
+<sect1>
+<title>Base image</title>
+<para>This is base image recieved according to instructions from LFS book and ULFS assistant. You can create a your own base image.</para>
+</sect1>
+
+<sect1>
+<title>X image</title>
+<para>This is base image recieved from base image. Objective of this image is run Xorg environment and default twm desktop environment.</para>
+<para>To create this image you have to run: <programlisting>chimp install X</programlisting></para>
+</sect1>
+
+<sect1>
+<title>LXDE image</title>
+<para>This image recieved from X image. Objective of this image is run LXDE desktop environment.</para>
+<para>To create this image you have to run: <programlisting>chimp install LXDE</programlisting></para>
+<para>To make LXDE main desktop manager of user create .xinitrc file in root of home folder and add:<programlisting>startlxde</programlisting></para>
+</sect1>
+
+<sect1>
+<title>MATE image</title>
+<para>This image recieved from X image. Objective of this image is run MATE desktop environment.</para>
+<para>To create this image you have to run: <programlisting>chimp install MATE</programlisting></para>
+<para>To make LXDE main desktop manager of user create .xinitrc file in root of home folder and add:<programlisting>mate-session</programlisting></para>
+</sect1>
+
+<sect1>
+<title>MATE Office image</title>
+<para>This image recieved from Mate image. Objective of this image is run LibreOffice in MATE desktop environment.</para>
+<para>To create this image you have to: 
+<itemizedlist>
+<listitem>Install java subsystem</listitem>
+<listitem>Install libreoffice</listitem>
+<listitem>Install qt5 subsystem</listitem>
+<listitem>Install gnome</listitem>
+<listitem>Install inkscape</listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1>
+<title>MATE Office2 image</title>
+<para>This image recieved from Mate Office image. Objective of this image is to add games and multimedia in Mate Office image.</para>
+<para>To create this image you have to: 
+<itemizedlist>
+<listitem>Install MATE-GAMES</listitem>
+<listitem>Install vlc</listitem>
+<listitem>Install audacious</listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1>
+<title>MATE VP image</title>
+<para>This image recieved from Mate Office2 image. Objective of this image is to run virtualization stack. This image can be used to run local ULFS repository.</para>
+<para>To create this image you have to: 
+<itemizedlist>
+<listitem>Install mc</listitem>
+<listitem>Install kernel sources and prepare it for use</listitem>
+<listitem>Install lxc</listitem>
+<listitem>Install qemu</listitem>
+<listitem>Install virt-manager</listitem>
+<listitem>Install virt-viewer</listitem>
+<listitem>Install firewalld</listitem>
+<listitem>Configure firewalld to use iptables as backend (in firewalld/firewald.conf)</listitem>
+<listitem>Enable firewalld and libvirt (libvirt*, virt*) services which located in /usr/lib/systemd/system/</listitem>
+<listitem>Install pciutils</listitem>
+<listitem>Install usbutils</listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+
+</chapter>
+
 
 <chapter>
 <title>ULFS System Configuration</title>
