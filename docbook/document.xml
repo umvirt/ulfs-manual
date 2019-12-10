@@ -554,6 +554,28 @@ To delete user called dummy and it homedir just type:
 <programlisting>
 userdel -rf dummy</programlisting>
 </para>
+
+<sect2>
+<title>Home directory template</title>
+<para>Home directory of new user is don't contain any folder or files. If you wish to create template for users home directory (a.k.a. skeleton directory) place it in /etc/skel directory. When you add new user pass -k parameter with folder template path.
+<programlisting>
+useradd -d /home/dummy -k /etc/skel dummy
+</programlisting>
+</para>
+</sect2>
+
+<sect2>
+<title>Default users</title>
+<para>ULFS can contain 3 default users:
+<itemizedlist>
+<listitem>root (UID:0) - root is system administrator he can perform all operations. This user is creared on LFS base image stage.</listitem>
+<listitem>maintainer (UID:801) - user which should be used after sudo package installation.</listitem>
+<listitem>user (UID:1000) - first user which can have UID=1000 equal to first user on all distribs. You should use this user when you working with first user data on other distribs images and partitions.</listitem>
+</itemizedlist>
+</para>
+<para>There are also many system users which created for specific packages.</para>
+</sect2>
+
 </sect1>
 
 
