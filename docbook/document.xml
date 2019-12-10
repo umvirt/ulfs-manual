@@ -560,7 +560,41 @@ userdel -rf dummy</programlisting>
 
 
 <sect1>
-<title>Guest additions</title>
+<title>Running in real hardware</title>
+<para>ULFS can run on real hardware. If needed better hardware support Linux kernel recompilation and installing drivers can be used.</para>
+<para>To run ULFS on real hardware you have to 
+<itemizedlist>
+<listitem>create new partition</listitem>
+<listitem>format new partition as ext4 filesystem</listitem>
+<listitem>copy files from image with preserving all attributes
+<programlisting>cp -rf --preserve=all %image_partition_mount_point%/* %new_partition_mount_point%</programlisting>
+or
+unpack archive with partiotion files to new partition
+<programlisting>mkdir partition
+mount %new_partition% partition
+tar -xf partition.tar.gz
+</programlisting>
+</listitem>
+<listitem>Edit grub.cfg and fstab files according to your new patition location.</listitem>
+</itemizedlist>
+</para>
+<sect2>
+<title>AMD Ryzen with AMD VEGA integrated graphics</title>
+<para>This platform is very attractive because it provide CPU and GPU in one chip. This platform is suitable for office and home.</para>
+<para>This platform need kernel recompilation (to support USB-devices and GPU), updating LLVM, libdrmm and mesa packages, installing xf86-vide-amdgpu package which also installs Linux kernel firmware.</para>
+<para>If system boots with problems, there are few ways to fix it:
+<itemizedlist>
+<listitem>"nomodeset" kernel boot flag can be used in grub.cfg to avoid problems with AMD GPU.</listitem>
+<listitem>if keyboard don't works, you can use other kernel, build new or use virtualization.</listitem>
+<listitem>glxinfo from mesa-demos package can show information about OpenGL driver.</listitem>
+<listitem>after installing video drivers, benchmarks can be used to check system stability and performance.</listitem>
+</itemizedlist>
+</para>
+</sect2>
+</sect1>
+
+<sect1>
+<title>Running in virtual environment</title>
 <para>Running ULFS in VMs need guest addition installing for specific hypervisor to get better performance and experience.</para>
 <sect2>
 <title>VirtualBox</title>
