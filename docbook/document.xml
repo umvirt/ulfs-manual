@@ -744,7 +744,7 @@ rcvboaxadd status</programlisting></listitem>
 &basics.ssh;
 &basics.http;
 &basics.db;
-
+&basics.proxy;
 </part>
 
 </book>

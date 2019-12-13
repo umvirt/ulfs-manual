@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf8"?>
+<chapter>
+<title>Proxy</title>
+<para>Proxy is the server which get requests from clients and send it to other servers.</para>
+<para>ULFS contain multiple specialized proxy servers: tor, plipo and squid.</para>
+<para>Also SSH can be used as Proxy server (SOCKS5).</para>
+<para>Proxies can cache requests and transfered data. Proxies can be used to monitor user activity and to reduce traffic consumption.</para>
+<para>Proxies can provide internet-connection to computers in isolated networks an even to computers without network interfaces. Some virtual machines on QEMU with FlexVDI SPICE can use proxies on client to get client's Internet connection.</para>
+<para>Some networks don't provide access to DNS therefore DNS should be used over proxy.</para>
+<sect1>
+<title>SSH</title>
+<para>It's possible to connect to remote computer by SSH and use it as SOCKS5 proxy-server. To do this you have to send "-D" argument and port number:
+<programlisting>ssh -D 12345 myuser@remote_ssh_server</programlisting>
+</para>
+</sect1>
+<sect1>
+<title>TOR</title>
+<para>The Onion network (TOR) is [pseudo] annonymous network which allows Web-clients to get connections from differnts IP's. There is tor client which is SOCKS5 proxy-server. Tor client get requests from clients and send them to servers which located on tor network and internet.
+Tor useful to bypass the access blockings which can be used by governments, providers and admins.</para>
+<para>Some applications can't connect to tor proxy directly (9050/tcp port). To allow this applications to work with SOCKS5 proxy another proxy can be used. Polipo proxy (3128/tcp) can be used as http-proxy between this application and tor proxy.</para>
+<para>To install Tor you can run
+<programlisting>
+chimp install tor
+</programlisting>
+</para>
+<para>To install Polopo you can run
+<programlisting>
+chimp install polipo
+</programlisting>
+</para>
+
+</sect1>
+<sect1>
+<title>Squid</title>
+<para>Squid is most popular proxy-server. Squid is flexible and powerful, has extensive access controls.</para>
+<para>There are web-interfaces for Squid which can simplify a control and monitoring.</para>
+<para>To install Squid you can run
+<programlisting>
+chimp install squid
+</programlisting>
+</para>
+</sect1>
+</chapter>
