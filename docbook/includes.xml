@@ -3,4 +3,5 @@
 <!ENTITY basics.http SYSTEM "basics/http.xml">
 <!ENTITY basics.db SYSTEM "basics/db.xml">
 <!ENTITY basics.proxy SYSTEM "basics/proxy.xml">
+<!ENTITY basics.virtualization SYSTEM "basics/virtualization.xml">
 

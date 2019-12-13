@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf8"?>
+<chapter>
+<title>Virtualization</title>
+<para>Virtualization is the technology which allows to run multiple virtual computers (virtual machines, guests, VMs) on one real computer(host). ULFS have a virtualization support it can be used both on VMs and on Hosts.</para>
+<para>ULFS provides specific virtualization software vision. Some virtualization platforms is not open-source (VmWare, Microsoft Hyper-V, Parrallels) some of open-source virtualization software have big issues (VirtualBox, Docker).</para>
+<para>Virtualization software provided in ULFS is open-source and don't have big issues.</para>
+
+<sect1>
+<title>Linux containers</title>
+<para>Linux containers (LXC) is technology of spliting physical computer environment to multiple virtual with same Linux kernel. LXC have best performance but provide limitations.</para>
+<para>To install Linux containers (LXC) you can run
+<programlisting>
+chimp install lxc
+</programlisting>
+</para>
+<para>Warning: Linux kernel sources should be available and ready for modules compilation. Please check it before install.</para>
+</sect1>
+
+<sect1>
+<title>QEMU</title>
+<para>QEMU also known as KVM (Kernvel Virtual Machine) is powerful emulator which can run virtual machines on various platforms and operating systems: GNU/Linux, Microsoft Windows, KolibriOS, Haiku, ReactOS and others.</para>
+<para>Warning: running Appple MacOS VMs is not supported. Running hacked versions of MacOS X (Hackintosh) is not recommended.</para>
+<para>To install QEMU you can run
+<programlisting>
+chimp install qemu
+</programlisting>
+</para>
+<para>Warning: KVM support should be enabled in Linux Kernel.</para>
+</sect1>
+
+<sect1>
+<title>Libvirt</title>
+<para>Libvirt is virtualization API which simplify and controls virtualization proccess.</para>
+<para>To install Libvirt you can run
+<programlisting>
+chimp install libvirt
+</programlisting>
+</para>
+</sect1>
+
+<sect1>
+<title>Virt-manager</title>
+<para>Virt-manager is GUI-fronted for libvirt. Virt-manager is simplify virtualization process.</para>
+<para>To install virt-manager you can run
+<programlisting>
+chimp install virt-manager
+</programlisting>
+</para>
+</sect1>
+
+<sect1>
+<title>SPICE</title>
+<para>SPICE is complete open source solution for remote access to virtual machines in a seamless way so you can play videos, record audio, share usb devices and share folders without complications.</para>
+<para>Spice server is integrated in QEMU. To install spice-client you can run
+<programlisting>
+chimp install spice-gtk
+</programlisting>
+</para>
+</sect1>
+
+
+<sect1>
+<title>FlexVDI SPICE</title>
+<para>FlexVDI SPICE is improved version of SPICE. FlexVDI spice is allows VMs to use client's Internet connection via proxy-servers. Using client's Internet connection allow to eliminate risc of client abuse on Internet connection.</para>
+<para>FlexVDI Spice server is not integrated in QEMU. To install it you shoud install qemu as usual then you have to run:
+<programlisting>
+chimp install flexvdi-spice-protocol
+chimp install flexvdi-spice
+chimp install flexvdi-quemu
+</programlisting>
+</para>
+<para>To install FlexVDI Spice client you can run
+<programlisting>
+chimp install flexvdi-spice-gtk
+</programlisting>
+</para>
+</sect1>
+</chapter>
