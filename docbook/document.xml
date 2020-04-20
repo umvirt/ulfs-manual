@@ -746,6 +746,7 @@ rcvboaxadd status</programlisting></listitem>
 &basics.db;
 &basics.proxy;
 &basics.firewall;
+&basics.staticroutes;
 &basics.virtualization;
 </part>
 

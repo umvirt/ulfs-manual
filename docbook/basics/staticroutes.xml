@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf8"?>
+<chapter>
+<title>Static routes</title>
+<para>Static routes is mechanism to configure routes between networks.</para>
+<para>Static routes are widely used in organisations in order to connect local area networks. Also static routes can be used in virtual networks to connect virtual machines.</para>
+<sect1>
+<title>Routes list</title>
+<para>To get routes list use command:
+<programlisting>ip route</programlisting>
+</para>
+</sect1>
+<sect1>
+<title>Add a route</title>
+<para>To add a route to network 192.168.19.0 through gateway 10.20.200.1 use command:
+<programlisting>ip route add 192.168.19.0/24 via 10.20.200.1</programlisting>
+</para>
+</sect1>
+<sect1>
+<title>Delete a route</title>
+<para>To delete a route to network 192.168.19.0 through gateway 10.20.200.1 use command:
+<programlisting>ip route del 192.168.19.0/24 via 10.20.200.1</programlisting>
+</para>
+</sect1>
+
+</chapter>

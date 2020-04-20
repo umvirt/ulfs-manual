@@ -4,5 +4,6 @@
 <!ENTITY basics.db SYSTEM "basics/db.xml">
 <!ENTITY basics.proxy SYSTEM "basics/proxy.xml">
 <!ENTITY basics.firewall SYSTEM "basics/firewall.xml">
+<!ENTITY basics.staticroutes SYSTEM "basics/staticroutes.xml">
 <!ENTITY basics.virtualization SYSTEM "basics/virtualization.xml">
 
