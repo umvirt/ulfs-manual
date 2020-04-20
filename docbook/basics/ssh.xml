@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf8"?>
-<chapter>
+<chapter xmlns="http://docbook.org/ns/docbook">
 <title>SSH</title>
 <para>Secure Shell (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. 
 SSH can be used for logging into a remote machine and for executing commands on a remote machine.</para>

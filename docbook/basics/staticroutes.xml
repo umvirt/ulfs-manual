@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf8"?>
-<chapter>
+<chapter xmlns="http://docbook.org/ns/docbook">
 <title>Static routes</title>
 <para>Static routes is mechanism to configure routes between networks.</para>
 <para>Static routes are widely used in organisations in order to connect local area networks. Also static routes can be used in virtual networks to connect virtual machines.</para>
