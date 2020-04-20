@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf8"?>
+<chapter>
+<title>Firewall</title>
+<para>Firewall is essential network tool which controlls access to configure access to network resources.</para>
+<para>ULFS is support various firewalls back-ends like iptables, nftables. But in order to work with firewalld front-end iptables is more suitable back-end.</para>
+<sect1>
+<title>Firewalld</title>
+<para>Firewalld is command-line interface (CLI) which used by libvirt daemon. Both firewalld and libvirt is products of Red Hat Company and used in RedHat, CentOS, Fedora distribs. You can get more information from their documentation.</para>
+<sect2>
+<title>Installation</title>
+<para>To install firewalld just build and install firewalld source package:
+<programlisting>chimp install firewalld</programlisting>
+</para>
+<para>After installing firewalld it's needed to configure firewalld back-end. As mentioned above we recomend to use iptables. Just edit /etc/firewalld/firewalld.conf file and change parameter "FirewallBackend" value to "iptables".</para>
+<para>After configuring firewalld we can set firewalld daemon autoload.
+<programlisting>systemctl enable firewalld</programlisting>
+To launch firewalld we need to restart a system or run command
+<programlisting>systemctl start firewalld</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>Ports openning</title>
+<para>After launching firewalld all ports in local machine from outside become closed. It's needed to open ports before access to them.</para>
+<sect3>
+<title>Ports openning for all</title>
+<para>To open tcp port to ssh by port number use command:
+<programlisting>firewall-cmd --add-port=22/tcp</programlisting>
+</para>
+<para>To open tcp port by service name use command:
+<programlisting>firewall-cmd --add-service=ssh</programlisting>
+</para>
+<para>It's should be mentioned that if you configure service to use other port (not default from /etc/services file) access can become denied. You have to check firewall settings manualy.</para>
+</sect3>
+<sect3>
+<title>Ports openning for specific IP-address</title>
+<para>Some times it's needed to open ports for specific IP-address in order to perform administrative tasks for example.</para>
+<para>To open tcp port 5900 to 10.0.0.1 we can use command:
+<programlisting>
+firewall-cmd --add-rich-rule='
+  rule family="ipv4"
+  source address="10.0.0.1"
+  port protocol="tcp" port="5900" accept'
+</programlisting>
+</para>
+<para>To open multiple ports from given interval use "-" as delimeter in ports value (for example: "5900-5999").</para>
+</sect3>
+</sect2>
+<sect2>
+<title>Ports forwarding</title>
+<para>It's possible grant access for local network resources from outside. Openning access to local network nodes ports called ports forwarding.</para>
+<para>Port forwardig is very useful when you work witn virtual machines.</para>
+<sect3>
+<title>Port forwarding for all</title>
+<para>To open port 27960 on virtual machine with address 192.168.122.2 we can use command:
+<programlisting>
+firewall-cmd --add-forward-port=port=27960:proto=udp:toaddr=192.168.122.2
+</programlisting>
+</para>
+</sect3>
+<sect3>
+<title>Port forwarding for specific IP-address</title>
+<para>To open tcp-port 1194 on local machine with 192.168.122.2 for address 10.0.0.1 we can use command:
+<programlisting>
+firewall-cmd --zone=public --add-rich-rule='
+rule family=ipv4 source address=10.0.0.1 forward-port port=1194 
+protocol=tcp to-port=1194 to-addr=192.168.122.2'
+</programlisting>
+</para>
+</sect3>
+</sect2>
+<sect2>
+<title>Autoload</title>
+<para>In order to save firewalld rules for further automatic load durring boot pass additional option "--permanent"  to firewall-cmd command.</para>
+<para>To clean temporary firewalld rules and to check stored permanent rules use command:
+<programlisting>firewall-cmd --reload</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>Check rules</title>
+<para>In order to check rules use command:
+<programlisting>firewall-cmd --list-all</programlisting>
+</para>
+</sect2>
+</sect1>
+<sect1>
+<title>IPtables</title>
+<para>IPtables is basic firewall interface. It can be used to extend firewalld possibilities.</para>
+<sect2>
+<title>NAT</title>
+<para>Network access translation is mechanism which allows hide local machines from outside and grant to local machines access to otside resources.</para>
+<para>To start NAT on vibr1 interface use commands:
+<programlisting>
+iptables -A FORWARD -i vibr1 -o primary -j ACCEPT
+iptables -t nat -A POSTROUTING -o primary -j MASQUERADE
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>Rules list</title>
+<para>To get iptables rules list use command:
+<programlisting>iptables -L</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>Cleaning a rules list</title>
+<para>To clean up iptables rules list use command:
+<programlisting>iptables -F</programlisting>
+</para>
+</sect2>
+</sect1>
+
+</chapter>
