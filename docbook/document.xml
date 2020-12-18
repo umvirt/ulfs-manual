@@ -814,6 +814,8 @@ tar -xf partition.tar.gz
 <title>AMD Ryzen with AMD VEGA integrated graphics</title>
 <para>This platform is very attractive because it provide CPU and GPU in one chip. This platform is suitable for office and home.</para>
 <para>This platform need kernel recompilation (to support USB-devices and GPU), updating LLVM, libdrmm and mesa packages, installing xf86-vide-amdgpu package which also installs Linux kernel firmware.</para>
+<sect3>
+<title>Booting</title>
 <para>If system boots with problems, there are few ways to fix it:
 <itemizedlist>
 <listitem>"nomodeset" kernel boot flag can be used in grub.cfg to avoid problems with AMD GPU.</listitem>
@@ -822,6 +824,23 @@ tar -xf partition.tar.gz
 <listitem>after installing video drivers, benchmarks can be used to check system stability and performance.</listitem>
 </itemizedlist>
 </para>
+</sect3>
+<sect3>
+<title>Video quality improvement</title>
+<para>By-default, tearing while playing video and running games can occur.</para>
+<para>To fix tearing run command and restart Xorg or computer:
+<programlisting>
+cat &gt; /etc/X11/xorg.conf.d/20-amdgpu.conf &lt;&lt; "EOF"
+Section "Device"
+        Identifier "AMD"
+        Driver "amdgpu"
+        Option "TearFree" "true"
+EndSection
+EOF
+</programlisting>
+</para>
+<para>If you wish to use other video cards you have to remove /etc/X11/xorg.conf.d/20-amdgpu.conf file.</para>
+</sect3>
 </sect2>
 </sect1>
 
