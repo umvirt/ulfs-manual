@@ -879,6 +879,7 @@ sync; echo 3 &gt; /proc/sys/vm/drop_caches
 </itemizedlist>
 </para>
 <para>This commands can be placed in script which is called by task scheduler.</para>
+<para>In production environments it is recommended to use only "Clear PageCache only" command.</para>
 </sect1>
 
 <sect1>
