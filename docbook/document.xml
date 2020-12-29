@@ -852,6 +852,36 @@ systemctl status rc-local
 </sect1>
 
 <sect1>
+<title>Cache clean-up</title>
+<para>Linux kernel use RAM not only for storing programs pages. Also Linux uses RAM to store ramdisks and cache.</para>
+<para>When system cache is become too big, a programs' pages are moved to swap partition if swap is available. Swap is works very slowly than RAM. Therefore all system performance is decline.</para>
+<para>When system cache is become too big and no swap partition is available programs are can be stoped.</para>
+<para>To flush a cache use this commands:
+<itemizedlist>
+<listitem>
+Clear PageCache only.
+<programlisting>
+sync; echo 1 &gt; /proc/sys/vm/drop_caches
+</programlisting>
+</listitem>
+<listitem>
+Clear dentries and inodes.
+<programlisting>
+sync; echo 2 &gt; /proc/sys/vm/drop_caches
+</programlisting>
+</listitem>
+<listitem>
+Clear PageCache, dentries and inodes.
+<programlisting>
+sync; echo 3 &gt; /proc/sys/vm/drop_caches 
+</programlisting>
+</listitem>
+</itemizedlist>
+</para>
+<para>This commands can be placed in script which is called by task scheduler.</para>
+</sect1>
+
+<sect1>
 <title>Running in real hardware</title>
 <para>ULFS can run on real hardware. If needed better hardware support Linux kernel recompilation and installing drivers can be used.</para>
 <para>To run ULFS on real hardware you have to 
