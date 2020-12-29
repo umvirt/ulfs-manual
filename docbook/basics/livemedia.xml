@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf8"?>
+<chapter xmlns="http://docbook.org/ns/docbook">
+<title>Live Media</title>
+<para>Every ULFS installation can be converted to Live CD/DVD and Live USB with Linux Live Kit.</para>
+<para>Live media can be used to run ULFS without installation to be used as installation media or as emergency system. </para>
+<para>ULFS Live CD/DVD also can be used as temporary virtual machines.</para>
+
+<sect1>
+<title>Using mastering VMs to master Live CD/DVD or Live USB</title>
+<para>Mastering Virtual Machines are improved versions of init editions of ULFS. They contain updated and patched kernel, additional packages.</para>
+<para>This virtual machines is source of LiveCD/DVD files. Almost all data which stored in virtual machine will be copied to image files.</para>
+<para>In order to append hardware support by LiveCD/DVD you can configure, patch and install a kernel.</para>
+<para>In order to reduce size delete all files in /root /home/user directories.</para>
+<para>If you wish to use LiveDVD to install ULFS place build_dir.tar.gz file from desired edition to /install folder.</para>
+<para>cd64 or cd32 are mastering Virtual Machines to generate LiveCD and LiveDVD iso images which can be used in emulators or burned on real media and used on real hardware. 32-bit images can be used on both 32-bit and 64-bit environments. 64-bit images can be used only on 64-bit environments.</para>
+<sect2>
+<title>How to make LiveCD/DVD iso-image file in mastering VMs</title>
+<itemizedlist>
+<listitem>
+Download cd64 or cd32 disk image and start VM (io: virtio, cpu: 4, ram: 4096).
+</listitem>
+<listitem>
+Login as root (no password).
+</listitem>
+<listitem>
+Go to /.cdbuild/linux-live-cd directory to build livecd or /.cdbuild/linux-live-dvd directory to build livedvd
+</listitem>
+<listitem>
+Run ./build
+</listitem>
+<listitem>
+Go to /tmp
+</listitem>
+<listitem>
+Edit gen_linux_iso.sh change -o /tmp/linux-x86_64.iso to: -o /cd/linux-x86_64.iso
+</listitem>
+<listitem>
+Run ./gen_linux_iso.sh
+</listitem>
+<listitem>
+Check `/cd directory. Iso file should be located in this directory.
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2>
+<title>How to make Live USB in mastering VMs</title>
+<para>Building an archive with Live USB files is same as building Live CD/DVD image but require an additional operation - installing master boot record. This operation can damage your hard drive.</para>
+<para>You can perform it carefuly or perform it in virtual machine.</para>
+<para>We recomend to build Live CD/DVD and then convert it to Live USB</para>
+</sect2>
+<sect2>
+<title>Known issues</title>
+<itemizedlist>
+<listitem>
+Changing name value from Linux to other in linux-live configuration file lead to errors.
+</listitem>
+<listitem>
+Changing build directory value in linux-live configuration to ./cd is required if you build distro size more than 1GB. By default building directory located in ramdisk.
+</listitem>
+</itemizedlist>
+</sect2>
+
+</sect1>
+<sect1>
+<title>Converting ULFS instance to Live CD/DVD or Live USB</title>
+<itemizedlist>
+<listitem>
+Patch a kernel 3.6.14 to support AUFS 
+</listitem>
+<listitem>
+Configure, build and install kernel and headers
+</listitem>
+<listitem>
+Install few additional packages: 
+cpio, 
+cdrtools, 
+rsync, 
+aufs-util, 
+squashfs-tools.
+</listitem>
+<listitem>Follow instructions from Linux Live Kit</listitem>
+</itemizedlist>
+</sect1>
+
+<sect1>
+<title>Converting Live CD/DVD to Live USB</title>
+<itemizedlist>
+<listitem>
+Prepare sandbox: Virtual Machine or PC without hard disks, only CD or USB-flash drive.
+</listitem>
+<listitem>
+Boot from ULFS Live CD/DVD.
+</listitem>
+<listitem>
+Prepare USB-flash drive:
+<itemizedlist>
+<listitem>
+Partitions table: DOS
+</listitem>
+<listitem>
+Partitions: At least one bootable Linux partition (ext4) bigger than ULFS Live CD/DVD iso-image size (bigger than 5GB for DVD)
+</listitem>
+</itemizedlist>
+
+</listitem>
+<listitem>
+Open root console
+<programlisting>
+su
+</programlisting>
+</listitem>
+<listitem>
+Create mount points
+<programlisting>
+mkdir /mnt/tmp
+mkdir /mnt/cd
+</programlisting>
+</listitem>
+<listitem>
+Mount Drives
+<programlisting>
+mount /dev/sda1 /mnt/tmp
+mount /dev/sr0 /mnt/cd
+</programlisting>
+</listitem>
+<listitem>
+Copy linux folder from CD to USD
+<programlisting>
+cp -rv /mnt/cd/linux /mnt/tmp 
+</programlisting>
+</listitem>
+<listitem>
+Run boot installer script
+<programlisting>
+cd /mnt/tmp/linux/boot
+./bootinst.sh
+</programlisting>
+</listitem>
+<listitem>
+Check result with qemu
+<programlisting>qemu /dev/sda</programlisting>
+</listitem>
+<listitem>
+If qemu boot vm from USB-flash drive, work is done!
+</listitem>
+</itemizedlist>
+</sect1>
+</chapter>

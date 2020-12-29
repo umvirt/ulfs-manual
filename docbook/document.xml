@@ -126,7 +126,7 @@ To get information about packages user can use ULFS packages service, source pac
         <para><emphasis role="bold">Using prebuilt archive</emphasis> - Fast way to install on container, new partition on physical/virtual machine.</para>
       </listitem>
       <listitem>
-        <para><emphasis role="bold">Using ULFS Desktop Demo Live DVD</emphasis> - Fast and simple way. Useful for newbies. Can't be used for high security tasks because contain thrid-party precompiled binaries (blobs).</para>
+        <para><emphasis role="bold">Using ULFS Desktop Demo Live CD/DVD (or Live USB)</emphasis> - Fast and simple way. Useful for newbies. Can't be used for high security tasks because contain thrid-party precompiled binaries (blobs).</para>
       </listitem>
       <listitem>
         <para><emphasis role="bold">Building from source code</emphasis> - Slowest way to install on any environment. Useful for high security tasks.</para>
@@ -201,7 +201,7 @@ on other disk disk:
 </sect1>
 
 <sect1>
-<title>Using ULFS Desktop Demo Live DVD</title>
+<title>Using ULFS Desktop Demo Live CD/DVD (or Live USB)</title>
 <para>
 If you wish to install base from prebuilt image follow next steps:
 <itemizedlist>
@@ -889,6 +889,7 @@ rcvboaxadd status</programlisting></listitem>
 &basics.firewall;
 &basics.staticroutes;
 &basics.virtualization;
+&basics.livemedia;
 </part>
 
 </book>
