@@ -789,7 +789,67 @@ useradd -d /home/dummy -k /etc/skel dummy
 </sect1>
 
 
+<sect1>
+<title>/etc/rc.local support</title>
+<para>In some GNU/Linux distributions /etc/rc.local file is used for executing user commands on startup.</para>
+<para>This file is very useful when writing service file is not neccesary.</para>
+<para>Systemd is not supply rc.local file support by-default. User should activate this support manualy.</para>
+<para></para>
+<itemizedlist>
+<listitem>
+<programlisting>
+Create service file /etc/systemd/system/rc-local.service
+cat &gt; /etc/systemd/system/rc-local.service &lt;&lt; "EOF"
+[Unit]
+ Description=/etc/rc.local Compatibility
+ ConditionPathExists=/etc/rc.local
 
+[Service]
+ Type=forking
+ ExecStart=/etc/rc.local start
+ TimeoutSec=0
+ StandardOutput=tty
+ RemainAfterExit=yes
+ SysVStartPriority=99
+
+[Install]
+ WantedBy=multi-user.target
+EOF
+</programlisting>
+</listitem>
+<listitem>
+Create /etc/rc.local file
+<programlisting>
+cat &gt; /etc/rc.local &lt;&lt; "EOF"
+#!/bin/bash
+
+#---Place your commands here----
+
+exit 0
+EOF
+</programlisting>
+</listitem>
+<listitem>
+Activate rc.local support
+<programlisting>
+systemctl enable rc-local
+</programlisting>
+</listitem>
+<listitem>
+Start rc.local support
+<programlisting>
+systemctl start rc-local
+</programlisting>
+</listitem>
+<listitem>
+Check rc.local support
+<programlisting>
+systemctl status rc-local
+</programlisting>
+</listitem>
+</itemizedlist>
+
+</sect1>
 
 <sect1>
 <title>Running in real hardware</title>
